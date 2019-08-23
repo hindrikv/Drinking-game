@@ -36,9 +36,12 @@ if (isset($_SESSION['error'])) {
 <div class="jumbotron align-self-center">
     <h1 class="display-4 text-center">Hello!</h1>
     <p class="lead text-center">Online drank spel
+        <br>
         <?php
-        echo print_r($_SESSION[$spelers]);
-        echo $_SESSION['spelers'[1][0]];
+
+        var_dump($_SESSION);
+        echo "<br> <br>";
+        echo $_SESSION['speler'][0];
         ?>
     </p>
     <hr class="my-4 align-self-center">
@@ -59,20 +62,20 @@ if (isset($_SESSION['error'])) {
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php print_r($_SESSION['spelers'][0][1]); ?>' placeholder="<?php echo "Naam Speler ".$aantal?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo $_SESSION['spelers'][0][0]; ?>' placeholder="<?php echo "Naam Speler ".$aantal?>">
 
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo test; ?>' placeholder="<?php echo "Naam Speler ".($aantal+1)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php  echo $_SESSION['spelers'][1][0]; ?>' placeholder="<?php echo "Naam Speler ".($aantal+1)?>">
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo $spelers[2][0] ?>' placeholder="<?php echo "Naam Speler ".($aantal+2)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php  echo $_SESSION['spelers'][2][0] ?>' placeholder="<?php echo "Naam Speler ".($aantal+2)?>">
                         </td>
                     </tr>
 
@@ -80,7 +83,7 @@ if (isset($_SESSION['error'])) {
                 </table>
             </div>
         </div>
-        <a href="javascript:void(0);" class="add_input_button" title="Add field"><h1> + </h1></a>
+        <a href="javascript:void(0);" class="add_input_button text-center" title="Add field"><h1> + </h1></a>
         <input class="btn btn-primary btn-lg btn-block" data-toggle="popover" data-trigger="hover" title="Succes!" data-content="Don't get tooooo wasted, Right?!" type="submit" name="submit" value="START!">
         <input class="btn btn-warning btn btn-primary btn-lg btn-block" type="reset" value="Reset" onclick="window.location.href='/spel/index.php?logout=1'">
 
@@ -88,22 +91,25 @@ if (isset($_SESSION['error'])) {
     </p>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
 
+<script type="text/javascript">
+        var input_count = 4;
+
+    $(document).ready(function(){
+        var arra = <?php echo json_encode($_SESSION['speler']); ?>;
         var max_fields = 16;
         var add_input_button = $('.add_input_button');
         var field_wrapper = $('.field_wrapper');
-        var input_count = 4;
-        var new_field_html =
-            '<tr> <td> <input class="form-control text-center" type="text" name="spelerss[]" value="<?= $_SESSION["speler4"] ?>"placeholder="<?php echo "Naam Speler "; ?>"> </td> </tr> <?php $aantal = $aantal +1; ?>';
-        function clicks() {
-            window.location.href = input_count;
-        }
+
+
 // Add button dynamically
         $(add_input_button).click(function(){
+            var new_field_html =
+                '<tr> <td> <input class="form-control text-center" type="text" name="spelerss[]" value="<?php  echo " ' + arra[input_count-1] + ' "; ?>" placeholder="<?php echo "Naam Speler ' + input_count + ' "; ?>"> </td> </tr> <?php $aantal = $aantal +1; ?>';
+
             if(input_count < max_fields){
                 input_count++;
+                console.log(input_count);
                 $(field_wrapper).append(new_field_html);
             }
         });
@@ -118,3 +124,4 @@ if (isset($_SESSION['error'])) {
 
 </body>
 </html>
+

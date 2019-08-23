@@ -34,11 +34,6 @@ foreach ($spelers as &$value) {
 
 
 
-echo $_SESSION['spelers'[1][1]];
-echo "<br>";
-echo $spelers[1][1];
-
-
 if (count($spelers)<2) {
     $_SESSION['error'] = "Error: te weinig spelers (min. 2 spelers)";
     header("Location: index.php");
@@ -77,8 +72,8 @@ function cleanArray($array)
 
 
 
-
 ?>
+<br>
 
 
 <div class="alert alert-success text-center h1" role="alert">
@@ -129,12 +124,12 @@ function cleanArray($array)
     <a class="btn btn-primary btn-block" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Drunk meter</a>
 
     <?php
-    //if (in_array_r("hindrikstat", $spelers)) {
+    if (in_array_r("hindrikstat", $spelers)) {
     ?>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Statistieken</button>
 
         <?php
-    //}
+    }
 
     function in_array_r($item , $array){
     return preg_match('/"'.preg_quote($item, '/').'"/i' , json_encode($array));
@@ -208,7 +203,7 @@ function cleanArray($array)
                             echo "<br>";
                             echo "push test ";
                             echo "<br>";
-                            echo print_r($tempa);
+                            echo $_SESSION['spelers'][1][0];
                             echo "<br>";
                             echo print_r($vragen);
                             echo "<br>";
