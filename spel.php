@@ -22,48 +22,22 @@ require 'opmaak/header.php'; //header
 
 session_start(); // sessions opslaan
 
-if(is_null($_POST['speler1']) == false) {
-    $_SESSION['speler1'] = $_POST['speler1'];
-    $_SESSION['speler2'] = $_POST['speler2'];
-    $_SESSION['speler3'] = $_POST['speler3'];
-    $_SESSION['speler4'] = $_POST['speler4'];
-    $_SESSION['speler5'] = $_POST['speler5'];
-    $_SESSION['speler6'] = $_POST['speler6'];
-    $_SESSION['speler7'] = $_POST['speler7'];
-    $_SESSION['speler8'] = $_POST['speler8'];
-    $_SESSION['speler9'] = $_POST['speler9'];
-    $_SESSION['speler10'] = $_POST['speler10'];
-    $_SESSION['speler11'] = $_POST['speler11'];
-    $_SESSION['speler12'] = $_POST['speler12'];
-    $_SESSION['speler13'] = $_POST['speler13'];
-    $_SESSION['speler14'] = $_POST['speler14'];
-    $_SESSION['speler15'] = $_POST['speler15'];
+if(is_null($_POST['spelerss']) == false) {
+    $_SESSION['speler'] = $_POST['spelerss'];
 }
 
-$tempspelers = array
-    (
-    array($_SESSION['speler1']),
-    array($_SESSION['speler2']),
-    array($_SESSION['speler3']),
-    array($_SESSION['speler4']),
-    array($_SESSION['speler5']),
-    array($_SESSION['speler6']),
-    array($_SESSION['speler7']),
-    array($_SESSION['speler8']),
-    array($_SESSION['speler9']),
-    array($_SESSION['speler10']),
-    array($_SESSION['speler11']),
-    array($_SESSION['speler12']),
-    array($_SESSION['speler13']),
-    array($_SESSION['speler14']),
-    array($_SESSION['speler15']) ); //namen array
+$spelers = cleanArray($_SESSION['speler']);
 
-$spelers = cleanArray($tempspelers);
-if($_SESSION['cnt'] === 1) {
-    foreach ($spelers as $key => $csm) {
-        $spelers[$key]['dronken'] = 1;
-    }
+foreach ($spelers as &$value) {
+    $value = array(ucfirst($value),1);
 }
+
+
+
+echo $_SESSION['spelers'[1][1]];
+echo "<br>";
+echo $spelers[1][1];
+
 
 if (count($spelers)<2) {
     $_SESSION['error'] = "Error: te weinig spelers (min. 2 spelers)";
@@ -71,6 +45,7 @@ if (count($spelers)<2) {
     die();
 }
 
+$_SESSION['spelers'] = $spelers;
 
 //clean all empty values from array
 function cleanArray($array)
@@ -100,17 +75,13 @@ function cleanArray($array)
 }
 
 
-function schoon(){
-    header('Location: .');
-    exit();
-}
 
 
 
 ?>
 
 
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success text-center h1" role="alert">
     <?php
     //check of de random cijfers niet gelijk zijn
     $rnd1 =  rand(0,count($spelers)-1);
@@ -125,17 +96,22 @@ function schoon(){
     }
     elseif(intval($soort) === 1){
         echo $spelers[$rnd1][0]." ".$vragen;
-        $_SESSION[$spelers[$rnd1][dronken]]++;
+        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
     }
     elseif(intval($soort) === 10){
         echo $spelers[$rnd1][0]." ".$vragen." ".$spelers[$rnd2][0];
-        $_SESSION[$spelers[$rnd1][dronken]]++;
-        $_SESSION[$spelers[$rnd2][dronken]]++;
+        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
+        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
     }
     elseif(intval($soort) === 100){
         echo $spelers[$rnd1][0]." en ".$spelers[$rnd2][0]." ".$vragen;
-        $_SESSION[$spelers[$rnd1][1]]++;
-        $_SESSION[$spelers[$rnd2][1]]++;
+        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
+        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
+    }
+    elseif(intval($soort) === 1000){
+        echo $spelers[$rnd1][0]." ".$vragen.$spelers[$rnd2][0]." ".$vragen1;
+        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
+        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
     }
     else{
         echo "error pik";
@@ -143,21 +119,22 @@ function schoon(){
     echo "<br>";
     ?>
     </div>
-<button type="button" name="next"  id="next" class="btn-lg btn-danger" onclick="document.location.href='/spel/spel.php'">Volgende!</button>
-<button type="button" name="stop"  id="stop" class="btn-lg btn-danger" onclick="document.location.href='/spel/stop.php'">STOP :(</button>
+<button type="button" name="next"  id="next" class="btn-lg btn-succes btn btn-primary btn-lg btn-block" onclick="document.location.href='/spel/spel.php'">Volgende!</button>
+<br>
+<button type="button" name="stop"  id="stop" class="btn-lg btn-danger btn-primary btn-lg btn-block" onclick="document.location.href='/spel/stop.php'">STOP :(</button>
 <br>
 <br>
 
 <p>
-    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Drunk meter</a>
+    <a class="btn btn-primary btn-block" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Drunk meter</a>
 
     <?php
-    if (in_array_r("hindrikstat", $spelers)) {
+    //if (in_array_r("hindrikstat", $spelers)) {
     ?>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Statistieken</button>
 
         <?php
-    }
+    //}
 
     function in_array_r($item , $array){
     return preg_match('/"'.preg_quote($item, '/').'"/i' , json_encode($array));
@@ -175,9 +152,9 @@ function schoon(){
                         $_SESSION['cnt']++;
                 }
                 echo "Aantal clicks dit spel: ".$_SESSION['cnt']."<br>";
-                echo $spelers[0][0]." ".$spelers[0][dronken]."<br>";
-                echo $spelers[1][0]." ".$spelers[1][dronken]."<br>";
-                echo $spelers[2][0]." ".$spelers[2][dronken]."<br>";
+                echo $spelers[0][0]." ".$spelers[0][1]."<br>";
+                echo $spelers[1][0]." ".$spelers[1][1]."<br>";
+                echo $spelers[2][0]." ".$spelers[2][1]."<br>";
                 print_r()
                 ?>
 
@@ -219,15 +196,19 @@ function schoon(){
                             echo "count spelers = ".count($spelers);
                             echo "<br>";
                             echo "<br>";
-                            echo "spelers: ".print_r($tempspelers);
+                            echo "Session spelers: ";
+                            print_r($_SESSION[$spelers[0][1]]);
                             echo "<br>";
                             echo "<br>";
-                            echo "spelers met clear:".print_r($spelers);
+                            echo "spelers met clear:";
+                            print_r($spelers);
                             echo "<br>";
                             echo "<br>";
                             echo "er zijn ".count($vragen)." vragen";
                             echo "<br>";
-                            echo "random vraag ".$randvraag0;
+                            echo "push test ";
+                            echo "<br>";
+                            echo print_r($tempa);
                             echo "<br>";
                             echo print_r($vragen);
                             echo "<br>";

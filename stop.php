@@ -15,20 +15,21 @@ session_start(); // sessions opslaan
 require "opmaak/header.php";
 
 $topscore = array($_SESSION['dronken0'],$_SESSION['dronken1'],$_SESSION['dronken2']);
-print_r($topscore);
-echo "<br>";
+
 $htol = rsort($topscore);
-print_r($htol);
+
 
 ?>
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <h1 class="display-4">Het einde!</h1>
         <p class="lead">
+            <a  target="_blank"><img src="https://media.gifs.nl/sad-gifs-kATKu3.gif" /></a>
+<br>
             <?php
             echo "Met in totaal ".$_SESSION['cnt']." clicks";
             ?>
-
+            <br>
         <div class="progress">
             <div class="progress-bar" role="progressbar" style="width: <?php echo $htol[0]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler1']." meter"; ?></div>
         </div>

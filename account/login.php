@@ -51,23 +51,25 @@ if (isset($_POST['submit'])) {
 
 
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Login Form</h3>
+<br>
+<br>
+<div class="container mx-auto">
+    <div class="row mx-auto">
+        <div class="col-md-6 mx-auto">
+            <h3  class="text-center">Login</h3>
             <?php if(!empty($error_message)) { ?>
-                <div class="alert alert-danger"><?php echo $error_message; ?></div>
+                <div class="alert alert-danger mx-auto"><?php echo $error_message; ?></div>
             <?php } ?>
             <form method="post">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
+                    <label for="exampleInputEmail1">Email</label>
                     <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
+                    <label for="exampleInputPassword1">Wachtwoord</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
                 </div>
-                <button type="submit" name="submit" class="btn btn-default">Submit</button>
+                <button type="submit" name="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
             </form>
         </div>
     </div>

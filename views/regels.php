@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Spel - Code</title>
+    <title>Spel - Regels</title>
 
 </head>
 <body>
@@ -14,13 +14,15 @@
 session_start(); // sessions opslaan
 require($_SERVER['DOCUMENT_ROOT']."/spel/opmaak/header.php");
 ?>
-<div class="card border-info mb-3" style="max-width: 25rem;">
-    <div class="card-body text-info">
-        <h5 class="card-title">Drank spel</h5>
-        <p class="card-text">Een super leuk spel dat je met zoveel mogelijk mensen kunt spelen. Het gaat hierbij om opdrachten en raadsels, dilemma’s en vragen. Zo kom je achter de ware aard van de mensen in de groep.
-            <strong>Benodigdheden</strong>
+<br>
+<br>
+<div class="card border-info mb-3 mx-auto" style="max-width: 25rem;">
+    <div class="card-body text-info align-self-center">
+        <h5 class="card-title text-center">Drank spel</h5>
+        <p class="card-text text-center">Een super leuk spel dat je met zoveel mogelijk mensen kunt spelen. Het gaat hierbij om opdrachten en raadsels, dilemma’s en vragen. Zo kom je achter de ware aard van de mensen in de groep.
+            <br> <br><strong>Benodigdheden</strong><br>
             Elke speler heeft een drankje en de app
-            <strong>Regels</strong>
+            <br> <br><strong>Regels</strong><br>
             Degene die de app heeft gedownload voert alle namen van de spelers in. De app geeft dan vanzelf opdrachten, raadsels en andere vragen die degene met de telefoon voorleest. Naarmate het spel vordert zal het wellicht een tikkeltje moeilijker worden om alles te begrijpen. Plezier gegarandeerd wel.</p>
     </div>
 </div>

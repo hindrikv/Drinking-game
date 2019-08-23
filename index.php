@@ -33,19 +33,20 @@ if (isset($_SESSION['error'])) {
 
 ?>
 
-<div class="jumbotron">
-    <h1 class="display-4">Hello!</h1>
-    <p class="lead">Online drank spel
+<div class="jumbotron align-self-center">
+    <h1 class="display-4 text-center">Hello!</h1>
+    <p class="lead text-center">Online drank spel
         <?php
-        echo $_SERVER['DOCUMENT_ROOT']."/spel/opmaak/header.php";
+        echo print_r($_SESSION[$spelers]);
+        echo $_SESSION['spelers'[1][0]];
         ?>
     </p>
-    <hr class="my-4">
+    <hr class="my-4 align-self-center">
     <p>
         <form action="spel.php" method="post">
 
-        <div class="row clearfix">
-            <div class="col-md-12 column">
+        <div class="row clearfix vertical-center">
+            <div class="col-md-12 column ">
                 <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
                     <tr >
@@ -54,86 +55,65 @@ if (isset($_SESSION['error'])) {
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="field_wrapper">
 
-                    <tr id='addr0'>
+                    <tr>
                         <td>
-                            <input class="form-control" type="text" name="speler1" value='<?= $_SESSION['speler1'] ?>' placeholder="<?php echo "Naam Speler ".$aantal?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php print_r($_SESSION['spelers'][0][1]); ?>' placeholder="<?php echo "Naam Speler ".$aantal?>">
+
                         </td>
                     </tr>
 
-                    <tr id='addr1'>
+                    <tr>
                         <td>
-                            <input class="form-control" type="text" name="speler2" value='<?= $_SESSION['speler2'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+1)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo test; ?>' placeholder="<?php echo "Naam Speler ".($aantal+1)?>">
                         </td>
                     </tr>
 
-                    <tr id='addr2'>
+                    <tr>
                         <td>
-                            <input class="form-control" type="text" name="speler3" value='<?= $_SESSION['speler3'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+2)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo $spelers[2][0] ?>' placeholder="<?php echo "Naam Speler ".($aantal+2)?>">
                         </td>
                     </tr>
 
-                    <tr id='addr3'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler4" value='<?= $_SESSION['speler4'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+3)?>">
-                    </td>
-                    <tr id='addr4'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler5" value='<?= $_SESSION['speler5'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+4)?>">
-                    </td>
-                    <tr id='addr5'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler6" value='<?= $_SESSION['speler6'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+5)?>">
-                    </td>
-                    <tr id='addr6'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler7" value='<?= $_SESSION['speler7'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+6)?>">
-                    </td>
-                    <tr id='addr7'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler8" value='<?= $_SESSION['speler8'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+7)?>">
-                    </td>
-                    <tr id='addr8'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler9" value='<?= $_SESSION['speler9'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+8)?>">
-                    </td>
-                    <tr id='addr9'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler10" value='<?= $_SESSION['speler10'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+9)?>">
-                    </td>
-                    <tr id='addr10'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler11" value='<?= $_SESSION['speler11'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+10)?>">
-                    </td>
-                    <tr id='addr11'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler12" value='<?= $_SESSION['speler12'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+11)?>">
-                    </td>
-                    <tr id='addr12'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler13" value='<?= $_SESSION['speler13'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+12)?>">
-                    </td>
-                    <tr id='addr13'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler14" value='<?= $_SESSION['speler14'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+13)?>">
-                    </td>
-                    <tr id='addr14'></tr>
-                    <td>
-                            <input class="form-control" type="text" name="speler15" value='<?= $_SESSION['speler15'] ?>' placeholder="<?php echo "Naam Speler ".($aantal+14)?>">
-                    </td>
                     </tbody>
                 </table>
             </div>
         </div>
+        <a href="javascript:void(0);" class="add_input_button" title="Add field"><h1> + </h1></a>
+        <input class="btn btn-primary btn-lg btn-block" data-toggle="popover" data-trigger="hover" title="Succes!" data-content="Don't get tooooo wasted, Right?!" type="submit" name="submit" value="START!">
+        <input class="btn btn-warning btn btn-primary btn-lg btn-block" type="reset" value="Reset" onclick="window.location.href='/spel/index.php?logout=1'">
 
-        <input class="btn btn-primary btn-lg" data-toggle="popover" data-trigger="hover" title="Succes!" data-content="Don't get tooooo wasted, Right?!" type="submit" name="submit" value="START!">
-        <input class="btn btn-warning" type="reset" value="Reset" onclick="window.location.href='/spel/index.php?logout=1'">
     </form>
     </p>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function(){
 
+        var max_fields = 16;
+        var add_input_button = $('.add_input_button');
+        var field_wrapper = $('.field_wrapper');
+        var input_count = 4;
+        var new_field_html =
+            '<tr> <td> <input class="form-control text-center" type="text" name="spelerss[]" value="<?= $_SESSION["speler4"] ?>"placeholder="<?php echo "Naam Speler "; ?>"> </td> </tr> <?php $aantal = $aantal +1; ?>';
+        function clicks() {
+            window.location.href = input_count;
+        }
+// Add button dynamically
+        $(add_input_button).click(function(){
+            if(input_count < max_fields){
+                input_count++;
+                $(field_wrapper).append(new_field_html);
+            }
+        });
+// Remove dynamically added button
+        $(field_wrapper).on('click', '.remove_input_button', function(e){
+            e.preventDefault();
+            $(this).parent('div').remove();
+            input_count--;
+        });
+    });</script>
 
 
 </body>

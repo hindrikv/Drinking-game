@@ -27,9 +27,10 @@ if (isset($_SESSION['id'])) {
 
     $iddb = $_POST["Id"];
     $vraagdb = $_POST["vraag"];
+    $vraag1db = $_POST["vraag1"];
     $soortdb = $_POST["soort"];
 
-    $sql = "INSERT INTO vragen (Id, vraag, soort) VALUES ('$iddb', '$vraagdb', '$soortdb')";
+    $sql = "INSERT INTO vragen (Id, vraag, vraag1, soort) VALUES ('$iddb', '$vraagdb', '$vraag1db', '$soortdb')";
     if(mysqli_query($conn, $sql)){
         echo "Records inserted successfully.";
     } else{
@@ -40,18 +41,20 @@ if (isset($_SESSION['id'])) {
     $result = mysqli_query($conn, "SELECT * FROM vragen");
     $num_rows = mysqli_num_rows($result); // aantal regels
     echo "<br>";
-    echo "aantal Id's = ".$num_rows;
+    echo "aantal Id's = ".$num_rows." ".$_SESSION['num_rowsDB'];
+    $_SESSION['num_rowsDB'] = intval($num_rows) + 1;
 
 
 
     ?>
     <h3>Welcome User ! <a href="?action=logout">Logout</a></h3>
     <form action="myaccount.php" method="post">
-        id: <input type="text" name="Id"><br>
+        id: <input type="text" name="Id" value="<?php echo intval($_SESSION['num_rowsDB']) ?>"><br>
         vraag: <input type="text" name="vraag"><br>
+        vraag1: <input type="text" name="vraag1"><br>
         soort: <input type="text" name="soort"><br>
         <?php
-        echo " 0 = geen speler <br> 1 = rnd 1 - text <br> 10 = rnd1 - text - rnd2 <br> 100 = rnd 1 en rnd 2 - text"
+        echo " 0 = geen speler <br> 1 = rnd 1 - text <br> 10 = rnd1 - text - rnd2 <br> 100 = rnd 1 en rnd 2 - text <br> 1000 meerdere vragen en twee personen"
         ?>
         <input type="submit">
     </form>

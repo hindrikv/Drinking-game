@@ -29,5 +29,6 @@ $row = $result->fetch_assoc();
 
 $vragen = print_r($row[vraag],true);
 $soort = print_r($row[soort],true);
+$vragen1 = print_r($row[vraag1],true);
 $conn->close();
 ?>
