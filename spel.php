@@ -1,7 +1,7 @@
 <!doctype html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
+<head >
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -22,25 +22,36 @@ require 'opmaak/header.php'; //header
 
 session_start(); // sessions opslaan
 
-if(is_null($_POST['spelerss']) == false) {
+if(is_null($_POST['spelerss'])  == false) {
     $_SESSION['speler'] = $_POST['spelerss'];
+
+}
+if(is_null($_POST['dbspeler'])  == false) {
+    $_SESSION['speler'] = $_POST['dbspeler'];
+}
+//post spelers naar de sessions spelerss is invoer veld dbspelers is uit de database
+
+$_SESSION['speler'] = cleanArray($_SESSION['speler']);
+//Lege arrays plaatsen weghalen
+
+
+
+if(ctype_alpha($_SESSION['speler'][0][1]) == true) {
+    foreach ($_SESSION['speler'] as &$value) {
+        $value = array(ucfirst($value), 1);
+    }
 }
 
-$spelers = cleanArray($_SESSION['speler']);
-
-foreach ($spelers as &$value) {
-    $value = array(ucfirst($value),1);
-}
+//maak van array multiarray
 
 
-
-if (count($spelers)<2) {
-    $_SESSION['error'] = "Error: te weinig spelers (min. 2 spelers)";
+if (count($_SESSION['speler'])<3) {
+    $_SESSION['error'] = "Error: te weinig spelers (min. 3 spelers)";
     header("Location: index.php");
     die();
 }
 
-$_SESSION['spelers'] = $spelers;
+
 
 //clean all empty values from array
 function cleanArray($array)
@@ -71,7 +82,6 @@ function cleanArray($array)
 
 
 
-
 ?>
 <br>
 
@@ -79,9 +89,9 @@ function cleanArray($array)
 <div class="alert alert-success text-center h1" role="alert">
     <?php
     //check of de random cijfers niet gelijk zijn
-    $rnd1 =  rand(0,count($spelers)-1);
+    $rnd1 =  rand(0,count($_SESSION['speler'])-1);
     do {
-        $rnd2 =  rand(0,count($spelers)-1);
+        $rnd2 =  rand(0,count($_SESSION['speler'])-1);
     } while ($rnd1 == $rnd2);
 
     require "config/vragen.php";
@@ -90,28 +100,29 @@ function cleanArray($array)
         echo $vragen;
     }
     elseif(intval($soort) === 1){
-        echo $spelers[$rnd1][0]." ".$vragen;
-        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
+        echo $_SESSION['speler'][$rnd1][0]." ".$vragen;
+        $_SESSION['speler'][$rnd1][1]++;
     }
     elseif(intval($soort) === 10){
-        echo $spelers[$rnd1][0]." ".$vragen." ".$spelers[$rnd2][0];
-        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
-        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
+        echo $_SESSION['speler'][$rnd1][0]." ".$vragen." ".$_SESSION['speler'][$rnd2][0];
+        $_SESSION['speler'][$rnd1][1]++;
+        $_SESSION['speler'][$rnd2][1]++;
     }
     elseif(intval($soort) === 100){
-        echo $spelers[$rnd1][0]." en ".$spelers[$rnd2][0]." ".$vragen;
-        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
-        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
+        echo $_SESSION['speler'][$rnd1][0]." en ".$_SESSION['speler'][$rnd2][0]." ".$vragen;
+        $_SESSION['speler'][$rnd1][1]++;
+        $_SESSION['speler'][$rnd2][1]++;
     }
     elseif(intval($soort) === 1000){
-        echo $spelers[$rnd1][0]." ".$vragen.$spelers[$rnd2][0]." ".$vragen1;
-        $_SESSION[$spelers[$rnd1][1]] = $_SESSION[$spelers[$rnd1][1]] + 1;
-        $_SESSION[$spelers[$rnd2][1]] = $_SESSION[$spelers[$rnd2][1]] + 1;
+        echo $_SESSION['speler'][$rnd1][0]." ".$vragen.$_SESSION['speler'][$rnd2][0]." ".$vragen1;
+        $_SESSION['speler'][$rnd1][1]++;
+        $_SESSION['speler'][$rnd2][1]++;
     }
     else{
         echo "error pik";
     }
     echo "<br>";
+
     ?>
     </div>
 <button type="button" name="next"  id="next" class="btn-lg btn-succes btn btn-primary btn-lg btn-block" onclick="document.location.href='/spel/spel.php'">Volgende!</button>
@@ -120,11 +131,13 @@ function cleanArray($array)
 <br>
 <br>
 
-<p>
-    <a class="btn btn-primary btn-block" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Drunk meter</a>
 
+
+<p>
+    <a class="btn btn-primary btn-block panel-heading collapsed" style="width:49%;display:inline-block;" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"  aria-controls="multiCollapseExample1">Drunk meter</a>
+    <a class="btn btn-primary btn-block panel-heading collapsed" style="width:49%;display:inline-block;margin-top:0;" data-toggle="collapse" href="#instellingen" role="button" aria-expanded="false"  aria-controls="multiCollapseExample1">Instellingen</a>
     <?php
-    if (in_array_r("hindrikstat", $spelers)) {
+    if (in_array_r("hindrikstat", $_SESSION['speler'])) {
     ?>
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Statistieken</button>
 
@@ -134,45 +147,65 @@ function cleanArray($array)
     function in_array_r($item , $array){
     return preg_match('/"'.preg_quote($item, '/').'"/i' , json_encode($array));
     }
+
     ?>
 </p>
 
 
 <div class="row">
-    <div class="col">
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
+    <div class="col ">
+        <div class="panel-collapse collapse multi-collapse" id="multiCollapseExample1">
             <div class="card card-body">
                 <?php
                 if(!isset($_POST['next'])){
                         $_SESSION['cnt']++;
                 }
                 echo "Aantal clicks dit spel: ".$_SESSION['cnt']."<br>";
-                echo $spelers[0][0]." ".$spelers[0][1]."<br>";
-                echo $spelers[1][0]." ".$spelers[1][1]."<br>";
-                echo $spelers[2][0]." ".$spelers[2][1]."<br>";
-                print_r()
+
+
+                //var_dump($_SESSION['speler']);
+
+
+                foreach ($_SESSION['speler'] as $key => $value){
+                echo $_SESSION['speler'][$key][0]." ".$_SESSION['speler'][$key][1]."<br>";
+                ?>
+                        <div class="progress">
+                        <div class="progress-bar" role="progressbar" style='width: <?php print_r($_SESSION['speler'][$key][1]); echo "%"; ?>;  aria-valuenow=60; aria-valuemin=0; aria-valuemax=100;'><?php echo "De "; print_r($_SESSION['speler'][$key][0]); echo " meter"; ?></div>
+                        </div>
+                        <br>
+                <?php
+                }
+
                 ?>
 
 
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: <?php echo $spelers[0][1]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$spelers[0][0]." meter"; ?></div>
-                </div>
-                        <br>
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: <?php echo $spelers[0][1]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$spelers[1][0]." meter"; ?></div>
-                </div>
-                        <br>
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: <?php echo $spelers[0][1]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$spelers[2][0]." meter"; ?></div>
-                </div>
 
 
             </div>
         </div>
     </div>
+    <div class="col">
+        <div class="collapse multi-collapse" id="instellingen">
+            <div class="card card-body">
+                <?php
+                $spelerDB = htmlentities(serialize($_SESSION['speler']),ENT_QUOTES);
+                ?>
+                <form action="save.php" method="post">
+                     <input type="hidden" maxlength="999999999999999999"name="namen" value=<?php echo "\"".$spelerDB."\""; ?>><br>
+                    <h3>Groep aanmaken </h3>
+                    <th class="text-center"> <strong> Groepsnaam: </strong> </th>
+                    <br>
+                    <input class="form-control text-center" type="text" name="Id" value="<?php $spelerDB ?>"><br>
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="Opslaan!" </>
+                </form>
+                <br>
+                <h3> </h3>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col">
         <div class="collapse multi-collapse" id="multiCollapseExample2">
             <div class="card card-body">
@@ -188,15 +221,15 @@ function cleanArray($array)
                             echo "rnd2 = ".$rnd2;
                             echo "<br>";
                             echo "<br>";
-                            echo "count spelers = ".count($spelers);
+                            echo "count spelers = ".count($_SESSION['speler']);
                             echo "<br>";
                             echo "<br>";
                             echo "Session spelers: ";
-                            print_r($_SESSION[$spelers[0][1]]);
+                            print_r($_SESSION[$_SESSION['speler'][0][1]]);
                             echo "<br>";
                             echo "<br>";
                             echo "spelers met clear:";
-                            print_r($spelers);
+                            print_r($_SESSION['speler']);
                             echo "<br>";
                             echo "<br>";
                             echo "er zijn ".count($vragen)." vragen";
@@ -246,7 +279,7 @@ if($_SESSION['cnt']===15)
     </button>
 
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>¯\_(ツ)_/¯</strong> <br>Is <?php print_r($spelers[rand(0,count($spelers)-1)][0]) ?> al dronken?
+        <strong>¯\_(ツ)_/¯</strong> <br>Is <?php print_r($_SESSION['speler'][rand(0,count($_SESSION['speler'])-1)][0]) ?> al dronken?
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>

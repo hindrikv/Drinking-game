@@ -14,9 +14,7 @@
 session_start(); // sessions opslaan
 require "opmaak/header.php";
 
-$topscore = array($_SESSION['dronken0'],$_SESSION['dronken1'],$_SESSION['dronken2']);
 
-$htol = rsort($topscore);
 
 
 ?>
@@ -28,80 +26,36 @@ $htol = rsort($topscore);
 <br>
             <?php
             echo "Met in totaal ".$_SESSION['cnt']." clicks";
-            ?>
-            <br>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $htol[0]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler1']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $htol[1]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler2']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $htol[2]."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler3']." meter"; ?></div>
-        </div>
-        <br>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken3']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler4']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken4']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler5']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken5']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler6']." meter"; ?></div>
-        </div>
-        <br>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken6']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler7']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken7']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler8']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken8']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler9']." meter"; ?></div>
-        </div>
-        <br>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken9']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler10']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken10']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler11']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken11']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler12']." meter"; ?></div>
-        </div>
-        <br>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken12']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler13']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken13']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler14']." meter"; ?></div>
-        </div>
-        <br>
-
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: <?php echo $_SESSION['dronken14']."%"; ?>;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><?php echo "De ".$_SESSION['speler15']." meter"; ?></div>
-        </div>
+            echo "<br>";
+?>
         </p>
+        <?php
+            foreach ($_SESSION['speler'] as $key => $value){
+            echo $_SESSION['speler'][$key][0]." ".$_SESSION['speler'][$key][1]."<br>";
+            ?>
+
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style='width: <?php print_r($_SESSION['speler'][$key][1]); echo "%"; ?>;  aria-valuenow=60; aria-valuemin=0; aria-valuemax=100;'><?php echo "De ".$_SESSION['speler'][$key][0]." meter"; ?></div>
+        </div>
+
+        <?php
+                }
+
+                ?>
+
     </div>
 </div>
+<?php
+session_destroy();
+?>
+<script>
+    $(document).on('ready',function(){
+        $('.progress .progress-bar').css("width",function() {
+            return $(this).attr("aria-valuenow") + "%";
+        })
+    })
+</script>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

@@ -28,31 +28,41 @@ $aantal = 1;
 if (isset($_SESSION['error'])) {
     echo "<div class=\"alert alert-warning\" role=\"alert\">".$_SESSION['error']."</div>";
     unset($_SESSION['error']);
+
 }
 
 
 ?>
 
+
 <div class="jumbotron align-self-center">
     <h1 class="display-4 text-center">Hello!</h1>
     <p class="lead text-center">Online drank spel
         <br>
+        <br>
         <?php
-
-        var_dump($_SESSION);
-        echo "<br> <br>";
-        echo $_SESSION['speler'][0];
+        if(count($_SESSION['speler'])>2){
+            echo "Doorgaan met oude spelers? <br>";
+            foreach ($_SESSION['speler'] as $key => $value){
+                echo $_SESSION['speler'][$key][0]."<br>";
+            }
+            ?>
+            <button type="button" class="btn btn-primary btn-lg" onclick="window.location.href='/spel/spel.php'">Ja!</button>
+            <button type="button" class="btn btn-secondary btn-lg" onclick="window.location.href='/spel/index.php?logout=1'">Nope</button>
+        <?php
+        }
+        else{
         ?>
     </p>
     <hr class="my-4 align-self-center">
     <p>
-        <form action="spel.php" method="post">
+    <form action="spel.php" method="post">
 
         <div class="row clearfix vertical-center">
             <div class="col-md-12 column ">
                 <table class="table table-bordered table-hover" id="tab_logic">
                     <thead>
-                    <tr >
+                    <tr>
                         <th class="text-center">
                             Spelers
                         </th>
@@ -62,20 +72,26 @@ if (isset($_SESSION['error'])) {
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php echo $_SESSION['spelers'][0][0]; ?>' placeholder="<?php echo "Naam Speler ".$aantal?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]"
+                                   value='<?php echo $_SESSION['spelers'][0][0]; ?>'
+                                   placeholder="<?php echo "Naam Speler " . $aantal ?>">
 
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php  echo $_SESSION['spelers'][1][0]; ?>' placeholder="<?php echo "Naam Speler ".($aantal+1)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]"
+                                   value='<?php echo $_SESSION['spelers'][1][0]; ?>'
+                                   placeholder="<?php echo "Naam Speler " . ($aantal + 1) ?>">
                         </td>
                     </tr>
 
                     <tr>
                         <td>
-                            <input class="form-control text-center" type="text" name="spelerss[]" value='<?php  echo $_SESSION['spelers'][2][0] ?>' placeholder="<?php echo "Naam Speler ".($aantal+2)?>">
+                            <input class="form-control text-center" type="text" name="spelerss[]"
+                                   value='<?php echo $_SESSION['spelers'][2][0] ?>'
+                                   placeholder="<?php echo "Naam Speler " . ($aantal + 2) ?>">
                         </td>
                     </tr>
 
@@ -84,12 +100,42 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
         <a href="javascript:void(0);" class="add_input_button text-center" title="Add field"><h1> + </h1></a>
-        <input class="btn btn-primary btn-lg btn-block" data-toggle="popover" data-trigger="hover" title="Succes!" data-content="Don't get tooooo wasted, Right?!" type="submit" name="submit" value="START!">
-        <input class="btn btn-warning btn btn-primary btn-lg btn-block" type="reset" value="Reset" onclick="window.location.href='/spel/index.php?logout=1'">
+
+        <input class="btn btn-primary btn-lg btn-block" data-toggle="popover" data-trigger="hover" title="Succes!"
+               data-content="Don't get tooooo wasted, Right?!" type="submit" name="submit" value="START!">
+        <input class="btn btn-warning btn btn-primary btn-lg btn-block" type="reset" value="Reset"
+               onclick="window.location.href='/spel/index.php?logout=1'">
+
+
 
     </form>
+    <br>
+    <br>
+<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#demo">Groepscode?</button>
+<div id="demo" class="collapse">
+    <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-body ">
+            <p class=" mx-auto card-title"><form action="herladen.php" method="post">
+                <p class="text-center"> Met een groeps code vind je easy je vrienden weer! :D</p>
+                <p class="text-center"><strong>id:</strong></p> <input class="form-control text-center" type="text" name="Id"><br>
+                <input class="btn btn-primary btn-lg btn-block" type="submit">
+            </form></p>
+
+            <?php
+            }
+            ?>
+        </div>
+
+</div>
+        </div>
+</div>
+
+
+
+
     </p>
 </div>
+
 
 
 <script type="text/javascript">
@@ -105,7 +151,7 @@ if (isset($_SESSION['error'])) {
 // Add button dynamically
         $(add_input_button).click(function(){
             var new_field_html =
-                '<tr> <td> <input class="form-control text-center" type="text" name="spelerss[]" value="<?php  echo " ' + arra[input_count-1] + ' "; ?>" placeholder="<?php echo "Naam Speler ' + input_count + ' "; ?>"> </td> </tr> <?php $aantal = $aantal +1; ?>';
+                '<tr> <td> <input class="form-control text-center" type="text" name="spelerss[]" placeholder="<?php echo "Naam Speler ' + input_count + ' "; ?>"> </td> </tr> <?php $aantal = $aantal +1; ?>';
 
             if(input_count < max_fields){
                 input_count++;
